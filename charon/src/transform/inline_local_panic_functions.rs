@@ -54,7 +54,7 @@ impl UllbcPass for Transform {
                                 ..
                             }),
                         ..
-                    }, target: _} = &block.terminator.content
+                    }, target: _, on_unwind: _} = &block.terminator.content
                         && panic_fns.contains(fun_id)
                     {
                         block.terminator.content = panic_terminator.clone();

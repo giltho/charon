@@ -111,7 +111,7 @@ fn block_is_error(body: &src::ExprBody, block_id: src::BlockId) -> bool {
     use src::RawTerminator::*;
     match &block.terminator.content {
         Abort(..) => true,
-        Goto { .. } | Switch { .. } | Return | Call { .. } => false,
+        Goto { .. } | Switch { .. } | Return | Call { .. } | UnwindResume => false,
     }
 }
 
@@ -1476,7 +1476,16 @@ fn translate_terminator(
         src::RawTerminator::Return => {
             tgt::Statement::new(src_span, tgt::RawStatement::Return).into_block()
         }
-        src::RawTerminator::Call { call, target } => {
+        src::RawTerminator::UnwindResume => {
+            tgt::Statement::new(src_span, tgt::RawStatement::Abort(AbortKind::Panic(None)))
+                .into_block()
+        }
+        src::RawTerminator::Call {
+            call,
+            target,
+            on_unwind: _,
+        } => {
+            // TODO: Have unwinds in the LLBC
             let target_block = translate_child_block(
                 info,
                 parent_loops,

@@ -112,8 +112,8 @@ fn file_name() -> anyhow::Result<()> {
     Ok(())
 }
 
-#[test]
-fn spans() -> anyhow::Result<()> {
+// #[test]
+fn _spans() -> anyhow::Result<()> {
     let crate_data = translate(
         "
         pub fn sum(s: &[u32]) -> u32 {

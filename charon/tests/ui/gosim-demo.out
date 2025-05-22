@@ -106,7 +106,10 @@ where
     let @20: &'_ (&'_ (T)); // anonymous local
     let @21: &'_ (&'_ (T)); // anonymous local
 
+    storage_live(@5)
+    storage_live(@6)
     storage_live(@7)
+    storage_live(@8)
     storage_live(x@9)
     storage_live(@10)
     storage_live(@11)
@@ -138,7 +141,6 @@ where
         storage_dead(@7)
         match @6 {
             core::option::Option::None => {
-                break 0
             },
             core::option::Option::Some => {
                 storage_live(x@9)
@@ -185,15 +187,15 @@ where
                 continue 0
             },
         }
+        @0 := ()
+        storage_dead(@8)
+        storage_dead(@6)
+        storage_dead(@5)
+        storage_dead(iter@4)
+        storage_dead(@2)
+        @0 := ()
+        return
     }
-    @0 := ()
-    storage_dead(@8)
-    storage_dead(@6)
-    storage_dead(@5)
-    storage_dead(iter@4)
-    storage_dead(@2)
-    @0 := ()
-    return
 }
 
 pub fn core::fmt::num::{impl core::fmt::Debug for i32}#80::fmt<'_0, '_1, '_2>(@1: &'_0 (i32), @2: &'_1 mut (core::fmt::Formatter<'_2>)) -> core::result::Result<(), core::fmt::Error>[core::marker::Sized<()>, core::marker::Sized<core::fmt::Error>]

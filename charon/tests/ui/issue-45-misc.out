@@ -208,7 +208,10 @@ fn test_crate::cbd(@1: Array<u8, 33 : usize>)
     let @12: &'_ mut (Array<u8, 33 : usize>); // anonymous local
     let @13: &'_ mut (u8); // anonymous local
 
+    storage_live(@5)
+    storage_live(@6)
     storage_live(@7)
+    storage_live(@8)
     storage_live(i@9)
     storage_live(@10)
     storage_live(@11)
@@ -232,7 +235,6 @@ fn test_crate::cbd(@1: Array<u8, 33 : usize>)
         storage_dead(@7)
         match @6 {
             core::option::Option::None => {
-                break 0
             },
             core::option::Option::Some => {
                 storage_live(i@9)
@@ -255,15 +257,15 @@ fn test_crate::cbd(@1: Array<u8, 33 : usize>)
                 continue 0
             },
         }
+        @0 := ()
+        storage_dead(@8)
+        storage_dead(@6)
+        storage_dead(@5)
+        storage_dead(iter@4)
+        storage_dead(@2)
+        @0 := ()
+        return
     }
-    @0 := ()
-    storage_dead(@8)
-    storage_dead(@6)
-    storage_dead(@5)
-    storage_dead(iter@4)
-    storage_dead(@2)
-    @0 := ()
-    return
 }
 
 pub enum core::panicking::AssertKind =

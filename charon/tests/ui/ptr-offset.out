@@ -7,10 +7,10 @@ pub fn core::slice::{Slice<T>}::as_ptr<'_0, T>(@1: &'_0 (Slice<T>)) -> *const T
 where
     [@TraitClause0]: core::marker::Sized<T>,
 
-pub fn core::intrinsics::cold_path()
-
 #[lang_item("panic_nounwind")]
 pub fn core::panicking::panic_nounwind(@1: &'static (Str)) -> !
+
+pub fn core::intrinsics::cold_path()
 
 fn core::ptr::const_ptr::{*const T}::offset::precondition_check(@1: *const (), @2: isize, @3: usize)
 {
@@ -67,10 +67,6 @@ fn core::ptr::const_ptr::{*const T}::offset::precondition_check(@1: *const (), @
     byte_offset@13 := cast<i64, isize>(copy (@8))
     storage_dead(@8)
     if copy (b@9) {
-        @14 := core::intrinsics::cold_path()
-        storage_dead(b@9)
-        storage_dead(rhs@6)
-        storage_dead(overflow@16)
     }
     else {
         storage_dead(b@9)
@@ -100,13 +96,18 @@ fn core::ptr::const_ptr::{*const T}::offset::precondition_check(@1: *const (), @
         @4 := ~(copy (overflow@16))
         storage_dead(overflow@16)
         if move (@4) {
-            storage_dead(@4)
-            @0 := ()
-            return
         }
         else {
+            @5 := core::panicking::panic_nounwind(const ("unsafe precondition(s) violated: ptr::offset requires the address calculation to not overflow\n\nThis indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety."))
         }
+        storage_dead(@4)
+        @0 := ()
+        return
     }
+    @14 := core::intrinsics::cold_path()
+    storage_dead(b@9)
+    storage_dead(rhs@6)
+    storage_dead(overflow@16)
     @5 := core::panicking::panic_nounwind(const ("unsafe precondition(s) violated: ptr::offset requires the address calculation to not overflow\n\nThis indicates a bug in the program. This Undefined Behavior check is optional, and cannot be relied on for safety."))
 }
 

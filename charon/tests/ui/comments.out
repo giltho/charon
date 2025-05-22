@@ -45,10 +45,20 @@ pub fn test_crate::sum<'_0>(@1: &'_0 (Slice<u32>)) -> u32
     let @22: &'_ (Slice<u32>); // anonymous local
     let @23: &'_ (u32); // anonymous local
 
+    storage_live(@8)
+    storage_live(@9)
+    storage_live(@10)
     storage_live(@11)
     storage_live(@12)
     storage_live(@13)
+    storage_live(@14)
+    storage_live(@15)
+    storage_live(@16)
+    storage_live(@17)
     storage_live(@18)
+    storage_live(@19)
+    storage_live(@20)
+    storage_live(@21)
     storage_live(@22)
     storage_live(@23)
     storage_live(sum@2)
@@ -84,13 +94,57 @@ pub fn test_crate::sum<'_0>(@1: &'_0 (Slice<u32>)) -> u32
         if move (@8) {
         }
         else {
-            break 0
+            storage_dead(@10)
+            storage_dead(@9)
+            storage_live(@14)
+            // Add to running sum
+            // Increment `i`
+            // Before end of loop
+            storage_dead(@14)
+            storage_dead(@8)
+            storage_dead(@7)
+            storage_live(@15)
+            storage_live(@16)
+            storage_live(@17)
+            // Assign the result of an `if`.
+            @17 := copy (sum@2)
+            @16 := move (@17) > const (10 : u32)
+            if move (@16) {
+                storage_dead(@17)
+                storage_live(@18)
+                // sum + 100
+                @18 := copy (sum@2)
+                @15 := copy (@18) + const (100 : u32)
+                storage_dead(@18)
+            }
+            else {
+                storage_dead(@17)
+                // let sum untouched
+                @15 := copy (sum@2)
+            }
+            storage_dead(@16)
+            sum@2 := move (@15)
+            storage_dead(@15)
+            storage_live(@19)
+            storage_live(@20)
+            storage_live(@21)
+            // Function call
+            @21 := copy (sum@2)
+            @20 := copy (@21) + const (2 : u32)
+            storage_dead(@21)
+            @19 := test_crate::function_call(move (@20))
+            storage_dead(@20)
+            storage_dead(@19)
+            // Return final value
+            @0 := copy (sum@2)
+            storage_dead(i@3)
+            storage_dead(sum@2)
+            return
         }
         storage_dead(@10)
         storage_dead(@9)
         storage_live(@12)
         storage_live(@13)
-        // Add to running sum
         @13 := copy (i@3)
         storage_live(@22)
         @22 := &*(s@1)
@@ -100,55 +154,10 @@ pub fn test_crate::sum<'_0>(@1: &'_0 (Slice<u32>)) -> u32
         sum@2 := copy (sum@2) + copy (@12)
         storage_dead(@12)
         storage_dead(@13)
-        // Increment `i`
         i@3 := copy (i@3) + const (1 : usize)
-        // Before end of loop
         storage_dead(@8)
         continue 0
     }
-    storage_dead(@10)
-    storage_dead(@9)
-    storage_live(@14)
-    storage_dead(@14)
-    storage_dead(@8)
-    storage_dead(@7)
-    storage_live(@15)
-    storage_live(@16)
-    storage_live(@17)
-    // Assign the result of an `if`.
-    @17 := copy (sum@2)
-    @16 := move (@17) > const (10 : u32)
-    if move (@16) {
-        storage_dead(@17)
-        storage_live(@18)
-        // sum + 100
-        @18 := copy (sum@2)
-        @15 := copy (@18) + const (100 : u32)
-        storage_dead(@18)
-    }
-    else {
-        storage_dead(@17)
-        // let sum untouched
-        @15 := copy (sum@2)
-    }
-    storage_dead(@16)
-    sum@2 := move (@15)
-    storage_dead(@15)
-    storage_live(@19)
-    storage_live(@20)
-    storage_live(@21)
-    // Function call
-    @21 := copy (sum@2)
-    @20 := copy (@21) + const (2 : u32)
-    storage_dead(@21)
-    @19 := test_crate::function_call(move (@20))
-    storage_dead(@20)
-    storage_dead(@19)
-    // Return final value
-    @0 := copy (sum@2)
-    storage_dead(i@3)
-    storage_dead(sum@2)
-    return
 }
 
 struct test_crate::Foo =

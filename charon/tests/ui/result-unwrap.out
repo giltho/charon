@@ -95,9 +95,9 @@ fn core::fmt::flags::DEBUG_UPPER_HEX_FLAG() -> u32
 
 const core::fmt::flags::DEBUG_UPPER_HEX_FLAG: u32 = core::fmt::flags::DEBUG_UPPER_HEX_FLAG()
 
-pub fn core::fmt::num::imp::{impl core::fmt::Display for u32}#6::fmt<'_0, '_1, '_2>(@1: &'_0 (u32), @2: &'_1 mut (core::fmt::Formatter<'_2>)) -> core::result::Result<(), core::fmt::Error>[core::marker::Sized<()>, core::marker::Sized<core::fmt::Error>]
-
 pub fn core::fmt::num::{impl core::fmt::UpperHex for u32}#61::fmt<'_0, '_1, '_2>(@1: &'_0 (u32), @2: &'_1 mut (core::fmt::Formatter<'_2>)) -> core::result::Result<(), core::fmt::Error>[core::marker::Sized<()>, core::marker::Sized<core::fmt::Error>]
+
+pub fn core::fmt::num::imp::{impl core::fmt::Display for u32}#6::fmt<'_0, '_1, '_2>(@1: &'_0 (u32), @2: &'_1 mut (core::fmt::Formatter<'_2>)) -> core::result::Result<(), core::fmt::Error>[core::marker::Sized<()>, core::marker::Sized<core::fmt::Error>]
 
 pub fn core::fmt::num::{impl core::fmt::Debug for u32}#86::fmt<'_0, '_1, '_2>(@1: &'_0 (u32), @2: &'_1 mut (core::fmt::Formatter<'_2>)) -> core::result::Result<(), core::fmt::Error>[core::marker::Sized<()>, core::marker::Sized<core::fmt::Error>]
 {
@@ -137,14 +137,15 @@ pub fn core::fmt::num::{impl core::fmt::Debug for u32}#86::fmt<'_0, '_1, '_2>(@1
     storage_dead(@6)
     switch move (@5) {
         0 : u32 => {
-            storage_dead(@5)
-            @0 := core::fmt::num::imp::{impl core::fmt::Display for u32}#6::fmt<'_, '_, '_>(move (self@1), move (f@2))
         },
         _ => {
             storage_dead(@5)
             @0 := core::fmt::num::{impl core::fmt::UpperHex for u32}#61::fmt<'_, '_, '_>(move (self@1), move (f@2))
+            return
         },
     }
+    storage_dead(@5)
+    @0 := core::fmt::num::imp::{impl core::fmt::Display for u32}#6::fmt<'_, '_, '_>(move (self@1), move (f@2))
     return
 }
 
